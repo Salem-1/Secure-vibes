@@ -1,0 +1,306 @@
+{
+  "target": {
+    "host": "MyAwesomeVibeCodedWebsite.com",
+    "apex": "myawesomevibecodedwebsite.com",
+    "url": "https://myawesomevibecodedwebsite.com/"
+  },
+  "demo": true,
+  "tls": {
+    "ok": true,
+    "authorized": true,
+    "authError": null,
+    "protocol": "TLSv1.3",
+    "cipher": "TLS_AES_256_GCM_SHA384",
+    "issuer": "Sectigo Limited",
+    "daysLeft": 141,
+    "subject": "myawesomevibecodedwebsite.com",
+    "validTo": null,
+    "altNames": [
+      "myawesomevibecodedwebsite.com",
+      "www.myawesomevibecodedwebsite.com"
+    ]
+  },
+  "oldTls": {
+    "tls10": false,
+    "tls11": false
+  },
+  "redirect": {
+    "redirectsToHttps": true,
+    "status": 301
+  },
+  "page": {
+    "status": 200,
+    "title": "My Awesome Vibe-Coded Website",
+    "generator": "WordPress 7.1.4",
+    "libs": [],
+    "mixed": 0,
+    "thirdParty": [
+      "fd.cleantalk.org",
+      "www.googletagmanager.com"
+    ],
+    "wordpress": true
+  },
+  "dns": {
+    "spf": "v=spf1 include:_spf.example-mail.com ~all",
+    "dmarc": "v=DMARC1; p=none;",
+    "dmarcPolicy": "none",
+    "ds": false,
+    "caa": []
+  },
+  "reputation": [
+    {
+      "name": "Cloudflare Malware Shield",
+      "server": "1.1.1.2",
+      "blocked": false
+    },
+    {
+      "name": "Quad9 Threat Blocking",
+      "server": "9.9.9.9",
+      "blocked": false
+    },
+    {
+      "name": "CleanBrowsing Security",
+      "server": "185.228.168.9",
+      "blocked": false
+    },
+    {
+      "name": "AdGuard DNS",
+      "server": "94.140.14.14",
+      "blocked": false
+    }
+  ],
+  "ports": {
+    "ip": "203.0.113.42",
+    "open": [
+      {
+        "port": 21,
+        "svc": "FTP (file transfer)",
+        "risk": "high",
+        "open": true
+      },
+      {
+        "port": 22,
+        "svc": "SSH (remote admin)",
+        "risk": "medium",
+        "open": true
+      }
+    ],
+    "checked": 15
+  },
+  "files": [
+    {
+      "path": "/.git/HEAD",
+      "label": "Source code repository (.git)",
+      "sev": "critical",
+      "found": false
+    },
+    {
+      "path": "/.env",
+      "label": "Environment file with secrets (.env)",
+      "sev": "critical",
+      "found": false
+    },
+    {
+      "path": "/.DS_Store",
+      "label": "Mac folder index (.DS_Store)",
+      "sev": "medium",
+      "found": false
+    },
+    {
+      "path": "/server-status",
+      "label": "Apache live server status page",
+      "sev": "high",
+      "found": false
+    },
+    {
+      "path": "/phpinfo.php",
+      "label": "PHP configuration dump (phpinfo)",
+      "sev": "high",
+      "found": false
+    },
+    {
+      "path": "/wp-json/wp/v2/users",
+      "label": "WordPress user list (usernames for login attacks)",
+      "sev": "medium",
+      "found": true
+    },
+    {
+      "path": "/xmlrpc.php",
+      "label": "WordPress XML-RPC (password brute-force amplifier)",
+      "sev": "low",
+      "found": true
+    }
+  ],
+  "securityTxt": {
+    "present": false
+  },
+  "rdap": {
+    "daysLeft": 400,
+    "locked": true
+  },
+  "subdomains": {
+    "count": 1,
+    "sample": [
+      "www.myawesomevibecodedwebsite.com"
+    ],
+    "sensitive": []
+  },
+  "findings": [
+    {
+      "category": "Exposed services",
+      "severity": "high",
+      "title": "FTP (file transfer) reachable from the internet (port 21)",
+      "impact": "An extra door into your infrastructure that attackers will try to open.",
+      "detail": "203.0.113.42:21 accepted a connection",
+      "fix": "Close the port in your firewall or restrict it to a VPN / allow-list."
+    },
+    {
+      "category": "Email security",
+      "severity": "medium",
+      "title": "DMARC is in monitor-only mode (p=none)",
+      "impact": "You can see spoofing but nothing is stopped.",
+      "detail": "v=DMARC1; p=none;",
+      "fix": "Move to p=quarantine, then p=reject."
+    },
+    {
+      "category": "Exposed services",
+      "severity": "medium",
+      "title": "SSH (remote admin) reachable from the internet (port 22)",
+      "impact": "An extra door into your infrastructure that attackers will try to open.",
+      "detail": "203.0.113.42:22 accepted a connection",
+      "fix": "Close the port in your firewall or restrict it to a VPN / allow-list."
+    },
+    {
+      "category": "Exposed services",
+      "severity": "medium",
+      "title": "Publicly downloadable: WordPress user list (usernames for login attacks)",
+      "impact": "Gives attackers a map of your system.",
+      "detail": "/wp-json/wp/v2/users",
+      "fix": "Block access to this path on your web server."
+    },
+    {
+      "category": "Outdated software",
+      "severity": "low",
+      "title": "CMS version published: WordPress 7.1.4",
+      "impact": "Bots scan the internet for exactly this string the day a new exploit drops.",
+      "detail": "",
+      "fix": "Remove the generator meta tag and keep the CMS updated."
+    },
+    {
+      "category": "Domain & DNS",
+      "severity": "low",
+      "title": "DNSSEC not enabled",
+      "impact": "DNS answers for your domain can be forged to redirect visitors.",
+      "detail": "",
+      "fix": "Enable DNSSEC at your registrar/DNS provider."
+    },
+    {
+      "category": "Exposed services",
+      "severity": "low",
+      "title": "Publicly downloadable: WordPress XML-RPC (password brute-force amplifier)",
+      "impact": "Gives attackers a map of your system.",
+      "detail": "/xmlrpc.php",
+      "fix": "Block access to this path on your web server."
+    },
+    {
+      "category": "Domain & DNS",
+      "severity": "info",
+      "title": "No CAA record",
+      "impact": "Any certificate authority may issue certificates for your domain.",
+      "detail": "",
+      "fix": "Add a CAA record naming your certificate provider."
+    },
+    {
+      "category": "Domain & DNS",
+      "severity": "info",
+      "title": "No security.txt contact",
+      "impact": "Researchers who find a hole in your site have no way to tell you before criminals find it.",
+      "detail": "",
+      "fix": "Publish /.well-known/security.txt with a contact email."
+    },
+    {
+      "category": "Encryption",
+      "severity": "pass",
+      "title": "Valid HTTPS certificate",
+      "impact": "Traffic between customers and your site is encrypted.",
+      "detail": "Sectigo Limited · TLSv1.3 · 141 days left",
+      "fix": ""
+    },
+    {
+      "category": "Website hardening",
+      "severity": "pass",
+      "title": "All key security headers present",
+      "impact": "Browsers are told to enforce strong protections on your site.",
+      "detail": "",
+      "fix": ""
+    },
+    {
+      "category": "Reputation",
+      "severity": "pass",
+      "title": "Clean on 4 threat-intelligence blocklists",
+      "impact": "Your domain is not currently flagged for malware or phishing.",
+      "detail": "Cloudflare Malware Shield, Quad9 Threat Blocking, CleanBrowsing Security, AdGuard DNS",
+      "fix": ""
+    }
+  ],
+  "summary": {
+    "score": 64,
+    "grade": "D",
+    "counts": {
+      "critical": 0,
+      "high": 1,
+      "medium": 3,
+      "low": 3,
+      "info": 2,
+      "pass": 3
+    },
+    "categories": [
+      {
+        "name": "Exposed services",
+        "score": 48,
+        "issues": 4
+      },
+      {
+        "name": "Email security",
+        "score": 88,
+        "issues": 1
+      },
+      {
+        "name": "Outdated software",
+        "score": 96,
+        "issues": 1
+      },
+      {
+        "name": "Domain & DNS",
+        "score": 96,
+        "issues": 1
+      },
+      {
+        "name": "Encryption",
+        "score": 100,
+        "issues": 0
+      },
+      {
+        "name": "Website hardening",
+        "score": 100,
+        "issues": 0
+      },
+      {
+        "name": "Reputation",
+        "score": 100,
+        "issues": 0
+      }
+    ]
+  },
+  "ai": {
+    "headline": "Our website has several open doors that hackers could exploit.",
+    "summary": "Attackers could use open admin ports and leaked usernames to hijack our site or steal data. This risks significant reputational damage and potential financial loss from a service outage. These gaps are common and can be closed quickly with standard security updates.",
+    "actions": [
+      "Close open FTP and SSH admin ports immediately",
+      "Hide WordPress usernames and disable XML-RPC",
+      "Update email security settings to block spoofing"
+    ],
+    "boardLine": "We have identified a few security gaps and are implementing fixes to harden our digital perimeter.",
+    "model": "google/gemma-4-31b-it"
+  }
+}

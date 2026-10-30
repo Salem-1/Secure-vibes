@@ -1,0 +1,26 @@
+{
+  "name": "secure-vibes",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Secure Vibes: a 60-second external security check for vibe-coded apps, with a Gemma 4 brief and a personal HyperFrames video",
+  "scripts": {
+    "start": "node server.js",
+    "demo:record": "node submission/record.mjs jobs/raw-demo.webm",
+    "demo:voice": "node submission/voiceover.mjs jobs/vo",
+    "demo:edit": "node submission/make-promo.mjs jobs/raw-demo.webm none submission/demo.mp4 submission/briefing-video.mp4",
+    "demo:edit:voice": "node submission/make-promo.mjs jobs/raw-demo.webm jobs/vo submission/demo.mp4 submission/briefing-video.mp4",
+    "deck": "python3 submission/make_deck.py"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "gsap": "^3.15.0",
+    "hyperframes": "^0.8.221"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.16.0"
+  }
+}

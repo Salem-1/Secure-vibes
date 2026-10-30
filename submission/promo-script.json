@@ -1,0 +1,11 @@
+{
+  "note": "Voiceover for the v2 promo. Each line starts at an on-screen moment ('anchor') plus 'offset' seconds; a line is pushed later if the previous one is still talking.",
+  "lines": [
+    { "anchor": "start",  "offset": 0.3, "text": "You vibe-coded your app in a weekend. Nice. But is it secure?" },
+    { "anchor": "scan",   "offset": 0.0, "text": "Paste your URL into Secure Vibes. We scan it the way attackers do." },
+    { "anchor": "report", "offset": 0.4, "text": "Gemma 4 reads the results and tells you, in plain English, what to fix first." },
+    { "anchor": "scroll", "offset": 3.0, "text": "Open admin ports. Leaked usernames. Email anyone can spoof. Every risk, with the fix." },
+    { "anchor": "video",  "offset": 0.5, "text": "Then you get your own security briefing video. Send it to your co-founder, or your investors." },
+    { "anchor": "cta",    "offset": 0.0, "text": "Hit Fix my vibe. You shipped fast. Now ship secure, with Secure Vibes." }
+  ]
+}

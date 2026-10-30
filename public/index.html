@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Secure Vibes · Is your vibe-coded app secure?</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy:#061224; --navy2:#0a1b33; --panel:rgba(20,184,166,.05); --line:rgba(94,234,212,.16);
+    --teal:#14b8a6; --teal2:#2dd4bf; --ink:#eef4fb; --dim:#93a3b8; --white:#fff; --dark:#0b1220;
+    --critical:#f87171; --high:#fb923c; --medium:#facc15; --low:#60a5fa; --pass:#34d399;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:Inter, system-ui, sans-serif; background:var(--navy); color:var(--ink); }
+  a { color:inherit; }
+  .hidden { display:none !important; }
+  nav { background:#fff; border-top:8px solid #000; }
+  nav .in { max-width:1260px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:18px 24px; }
+  .logo { font:800 26px Inter, sans-serif; letter-spacing:.06em; color:var(--dark); }
+  .logo b { color:var(--teal); font-weight:800; letter-spacing:0; }
+  .logo span { font-weight:600; }
+  nav ul { display:flex; gap:36px; list-style:none; font-weight:500; color:#1f2937; }
+  nav li.on { color:var(--teal); font-weight:700; }
+  .hero { background:radial-gradient(900px 500px at 75% 30%, rgba(20,184,166,.12), transparent 60%), var(--navy); }
+  .hero .in { max-width:1260px; margin:0 auto; padding:60px 24px 40px; display:grid; grid-template-columns:1fr 1.25fr; gap:50px; align-items:center; }
+  .eyebrow { font:700 14px Inter; letter-spacing:.22em; color:var(--teal2); text-transform:uppercase; }
+  h1 { font-size:52px; line-height:1.02; font-weight:800; letter-spacing:-.02em; margin:16px 0 22px; }
+  h1 em { font-style:normal; color:var(--teal); }
+  .lead { font-size:18px; color:#c9d4e3; line-height:1.6; max-width:480px; }
+  .cta-label { margin-top:34px; font-weight:700; }
+  form.scan { display:flex; gap:10px; margin-top:12px; max-width:520px; }
+  form.scan input[type=text] { flex:1; height:56px; border-radius:10px; border:2px solid var(--teal); padding:0 18px; font-size:17px; outline:none; }
+  form.scan button { width:56px; height:56px; border-radius:10px; border:0; background:var(--teal); color:#fff; font-size:24px; cursor:pointer; }
+  form.scan button:disabled { opacity:.5; }
+  .fine { font-size:13px; color:var(--dim); margin-top:10px; }
+  .consent { display:flex; gap:8px; align-items:center; font-size:13px; color:#c9d4e3; margin-top:10px; }
+  .err { color:var(--critical); font-size:14px; margin-top:8px; min-height:18px; }
+  .explore { display:inline-block; margin-top:18px; color:var(--teal2); font-weight:700; }
+  .panels { display:grid; grid-template-columns:1fr 1fr; gap:26px; position:relative; }
+  .glow { border:1.5px solid rgba(45,212,191,.55); border-radius:22px; padding:24px; background:linear-gradient(180deg, rgba(20,184,166,.10), rgba(6,18,36,.6)); box-shadow:0 0 40px rgba(20,184,166,.25), inset 0 0 30px rgba(20,184,166,.08); }
+  .ph { display:flex; gap:12px; align-items:flex-start; }
+  .ic { width:38px; height:38px; border-radius:50%; border:1px solid var(--line); display:grid; place-items:center; color:var(--teal2); flex:none; }
+  .ph h5 { font-size:13px; letter-spacing:.14em; text-transform:uppercase; }
+  .ph p { font-size:13px; color:var(--dim); margin-top:4px; }
+  .gauge { display:flex; justify-content:space-between; align-items:flex-end; margin:20px 0 10px; }
+  .gauge .num { font-size:30px; font-weight:800; }
+  .delta { color:var(--pass); font-weight:700; text-align:right; font-size:15px; }
+  .delta small { display:block; color:var(--dim); font-weight:400; font-size:12px; }
+  .act { border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-size:13px; margin-top:8px; display:flex; justify-content:space-between; }
+  .fw { display:flex; gap:22px; margin-top:16px; font-size:13px; }
+  .fw small { display:block; color:var(--dim); }
+  .dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:6px; }
+  .check { font-size:14px; margin-top:10px; display:flex; gap:8px; }
+  .check::before { content:"✓"; color:var(--teal2); }
+  .btn-o { display:block; text-align:center; margin-top:20px; border:1.5px solid var(--teal); border-radius:10px; padding:13px; font-weight:700; }
+  .tiles { max-width:1260px; margin:0 auto; padding:10px 24px 20px; display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .tile { border:1px solid var(--line); border-radius:14px; padding:18px; background:var(--panel); }
+  .tile b { display:block; font-size:17px; } .tile span { color:var(--dim); font-size:14px; }
+  .frames { text-align:center; color:var(--dim); padding:14px 24px 50px; font-size:14px; letter-spacing:.02em; }
+  /* modal */
+  .overlay { position:fixed; inset:0; background:rgba(2,6,14,.75); backdrop-filter:blur(4px); z-index:50; display:flex; align-items:stretch; justify-content:center; padding:20px; }
+  .modal { width:100%; max-width:1500px; background:linear-gradient(180deg,#0b2236,#050d1c 60%); border:1px solid var(--line); border-radius:18px; display:flex; flex-direction:column; overflow:hidden; }
+  .mhead { padding:20px 24px; border-bottom:1px solid var(--line); position:relative; }
+  .mhead .x { position:absolute; right:24px; top:20px; background:none; border:0; color:var(--ink); font-size:22px; cursor:pointer; }
+  .mhead h2 { font-size:26px; margin:6px 0 4px; }
+  .mhead p { color:#c9d4e3; }
+  .mbody { flex:1; overflow:auto; padding:20px 24px; display:grid; grid-template-columns:1fr 1.25fr; gap:26px; }
+  .assessed { display:flex; gap:16px; align-items:center; margin-bottom:20px; }
+  .assessed b { color:var(--medium); font-size:22px; }
+  .grid9 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .dom { border:1px solid var(--line); border-radius:10px; padding:16px 10px; text-align:center; background:rgba(255,255,255,.015); }
+  .dom.on { border-color:var(--teal); background:rgba(20,184,166,.12); }
+  .dom .ring { width:56px; height:56px; margin:0 auto 10px; border-radius:50%; border:4px solid rgba(255,255,255,.08); display:grid; place-items:center; color:var(--dim); }
+  .dom.on .ring { border-color:rgba(20,184,166,.25); border-top-color:var(--teal2); animation:spin 1.2s linear infinite; }
+  .dom.on.done .ring { animation:none; border-color:var(--teal2); color:var(--teal2); }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .dom b { font-size:14px; font-weight:600; display:block; }
+  .dom small { font-size:11px; letter-spacing:.1em; color:var(--dim); text-transform:uppercase; }
+  .dom.on small { color:var(--teal2); }
+  .steps { margin-top:18px; list-style:none; font-size:13px; color:var(--dim); }
+  .steps li { padding:4px 0; display:flex; justify-content:space-between; }
+  .steps li.ok { color:#c9d4e3; } .steps li.ok::before { content:"✓ "; color:var(--teal2); }
+  .card { border:1px solid var(--line); border-radius:12px; padding:18px 20px; background:rgba(255,255,255,.02); margin-bottom:14px; }
+  .expo { display:flex; gap:22px; align-items:center; }
+  .expo .dm { font:700 20px 'JetBrains Mono', monospace; color:var(--teal2); }
+  .badge { display:inline-block; padding:4px 10px; border-radius:8px; font-size:14px; background:rgba(248,113,113,.15); color:#fca5a5; margin-left:10px; }
+  .expo p { color:#c9d4e3; margin-top:6px; line-height:1.5; }
+  .find h4 { font-size:18px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .pill { font:600 13px Inter; letter-spacing:.06em; padding:4px 10px; border-radius:8px; color:var(--c); background:color-mix(in srgb, var(--c) 16%, transparent); }
+  .find p { color:#c9d4e3; margin-top:8px; line-height:1.5; }
+  .find .fix { color:var(--dim); font-size:14px; margin-top:6px; }
+  .vid video { width:100%; border-radius:10px; margin-top:10px; background:#000; }
+  .bar { height:6px; background:rgba(255,255,255,.08); border-radius:9px; overflow:hidden; margin-top:10px; }
+  .bar div { height:100%; width:0; background:var(--teal); transition:width .4s; }
+  .mfoot { border-top:1px solid var(--line); padding:14px 24px 18px; text-align:center; }
+  .mfoot p { color:#c9d4e3; margin-bottom:10px; }
+  .bigbtn { display:block; width:100%; background:var(--teal); color:#fff; border:0; border-radius:10px; padding:16px; font-size:20px; font-weight:600; cursor:pointer; }
+  .sub { display:flex; gap:10px; margin-top:10px; } .sub input { flex:1; padding:12px; border-radius:8px; border:1px solid var(--line); background:#071629; color:var(--ink); }
+  .sub button { padding:0 18px; border-radius:8px; border:0; background:var(--teal2); color:#04201c; font-weight:700; cursor:pointer; }
+  @media (max-width:980px) { .hero .in, .mbody, .panels { grid-template-columns:1fr; } .tiles { grid-template-columns:1fr 1fr; } nav ul { display:none; } h1 { font-size:40px; } }
+</style>
+</head>
+<body>
+<nav><div class="in"><div class="logo"><span>SECURE</span><b>VIBES</b></div>
+  <ul><li class="on">Home</li><li>Plans</li><li>For vibecoders</li><li>FAQ</li><li>Contact</li></ul></div></nav>
+
+<section class="hero" id="top"><div class="in">
+  <div>
+    <div class="eyebrow">Security for vibecoders</div>
+    <h1>You vibe-coded it. Is it <em>secure</em>?</h1>
+    <p class="lead">AI helped you ship in a weekend. Bots will find its weak spots in an hour. Paste your URL and see exactly what attackers see, how bad it could get, and how to fix it.</p>
+    <div class="cta-label">Free 60-second security check</div>
+    <form class="scan" id="scanForm">
+      <input type="text" id="domain" placeholder="your-app.com" autocomplete="off" />
+      <button id="scanBtn" type="submit" aria-label="Scan">→</button>
+    </form>
+    <label class="consent"><input type="checkbox" id="consent" /> I own this domain or am authorised to scan it.</label>
+    <div class="fine">Free · No signup · Read-only checks · Fix list + personal video included</div>
+    <div class="err" id="err"></div>
+    <a class="explore" href="#">Explore monthly plans →</a>
+  </div>
+  <div class="panels">
+    <div class="glow">
+      <div class="ph"><div class="ic">⌬</div><div><h5>AI-powered diagnosis</h5><p>Identifies, monitors and prioritises</p></div></div>
+      <div style="font-size:13px;color:var(--dim);margin-top:18px">Readiness score</div>
+      <div class="gauge"><div><svg width="96" height="54" viewBox="0 0 96 54"><path d="M8 50 A40 40 0 0 1 88 50" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="8" stroke-linecap="round"/><path d="M8 50 A40 40 0 0 1 80 26" fill="none" stroke="#2dd4bf" stroke-width="8" stroke-linecap="round"/></svg><div class="num">78 <small style="font-size:12px;color:var(--dim);font-weight:400">/ 100</small></div></div>
+        <div class="delta">↗ +12<small>Since last month</small></div></div>
+      <div style="font-size:13px;font-weight:600">Top priority actions</div>
+      <div class="act"><span>⊘ Fix exposed service</span><span>›</span></div>
+      <div class="act"><span>⚠ Update third-party risk</span><span>›</span></div>
+      <div class="act"><span>▤ Complete policy review</span><span>›</span></div>
+      <div class="fw"><div><span class="dot" style="background:var(--pass)"></span>NIST<small>On track</small></div><div><span class="dot" style="background:var(--pass)"></span>ISO 27001<small>On track</small></div><div><span class="dot" style="background:var(--medium)"></span>GDPR<small>Minor gaps</small></div></div>
+    </div>
+    <div class="glow">
+      <div class="ph"><div class="ic">◯</div><div><h5>Fixes you can paste into your AI tool</h5><p>Cursor, Lovable, Bolt, Replit, Claude Code</p></div></div>
+      <div class="ph" style="margin-top:22px"><div class="ic" style="width:54px;height:54px">👤</div><div><b>Your security co-pilot</b><p>Illustrative profile</p></div></div>
+      <div style="font-size:13px;font-weight:600;margin-top:20px">This month</div>
+      <div class="check">Reviewed your risk profile</div>
+      <div class="check">Guidance on AI governance</div>
+      <div class="check">Updated compliance roadmap</div>
+      <div class="act" style="margin-top:16px;padding:14px"><span><small style="color:var(--dim)">Next meeting</small><br/><b>Monthly governance</b></span><span>›</span></div>
+      <a class="btn-o" href="#top">Scan my app</a>
+    </div>
+  </div>
+</div></section>
+<div class="tiles">
+  <div class="tile"><b>Leaked API keys</b><span>Stop the surprise $10k cloud bill</span></div>
+  <div class="tile"><b>Email spoofing</b><span>Nobody phishes users as you</span></div>
+  <div class="tile"><b>Exposed databases</b><span>Avoid the breach headline</span></div>
+  <div class="tile"><b>Investor-ready</b><span>Pass security due diligence</span></div>
+</div>
+<div class="frames">NIST CSF 2.0 · ISO 27001 · UAE PDPL · GDPR · NIST AI RMF · ISO/IEC 42001</div>
+
+<div class="overlay hidden" id="overlay"><div class="modal">
+  <div class="mhead">
+    <div class="eyebrow">Step 1 · Domain check</div>
+    <h2 id="mTitle">Scanning…</h2>
+    <p id="mSub">Checking what is publicly visible from the internet</p>
+    <button class="x" onclick="document.getElementById('overlay').classList.add('hidden')" aria-label="Close">×</button>
+  </div>
+  <div class="mbody">
+    <div>
+      <div class="assessed"><svg width="70" height="70" viewBox="0 0 70 70"><circle cx="35" cy="35" r="29" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"/><circle cx="35" cy="35" r="29" fill="none" stroke="#facc15" stroke-width="6" stroke-dasharray="182" stroke-dashoffset="164" transform="rotate(-90 35 35)" stroke-linecap="round"/></svg>
+        <div><b>10%</b> <span style="font-size:20px;font-weight:700">assessed</span><div style="color:#c9d4e3;margin-top:4px">You've seen 1 of 9 domains, roughly 10% of your real risk.</div></div></div>
+      <div class="grid9">
+        <div class="dom on" id="domExt"><div class="ring" id="extRing"></div><b>External Exposure</b><small>Checked from the outside</small></div>
+        <div class="dom"><div class="ring">🔒</div><b>Governance</b><small>See what is tested</small></div>
+        <div class="dom"><div class="ring">🔒</div><b>Asset Identification</b><small>See what is tested</small></div>
+        <div class="dom"><div class="ring">🔒</div><b>Protection</b><small>See what is tested</small></div>
+        <div class="dom"><div class="ring">🔒</div><b>Detection</b><small>See what is tested</small></div>
+        <div class="dom"><div class="ring">🔒</div><b>Response</b><small>See what is tested</small></div>
+        <div class="dom"><div class="ring">🔒</div><b>Recovery</b><small>See what is tested</small></div>
+        <div class="dom"><div class="ring">🔒</div><b>Compliance</b><small>See what is tested</small></div>
+        <div class="dom"><div class="ring">🔒</div><b>AI Governance &amp; Risk</b><small>See what is tested</small></div>
+      </div>
+      <ul class="steps" id="steps"></ul>
+    </div>
+    <div id="right">
+      <div class="card hidden" id="aiCard" style="border-color:rgba(45,212,191,.5);background:linear-gradient(135deg,rgba(20,184,166,.12),rgba(255,255,255,.02))"></div>
+      <div class="card expo hidden" id="expoCard">
+        <div style="text-align:center"><svg width="80" height="80" viewBox="0 0 80 80"><circle cx="40" cy="40" r="33" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"/><circle id="expoArc" cx="40" cy="40" r="33" fill="none" stroke="#f87171" stroke-width="6" stroke-dasharray="207.3" stroke-dashoffset="207.3" transform="rotate(-90 40 40)" stroke-linecap="round" style="transition:stroke-dashoffset 1.2s"/><text id="expoNum" x="40" y="47" text-anchor="middle" fill="#fff" font-size="22" font-weight="800" font-family="Inter">0</text></svg><div style="font-size:12px;letter-spacing:.1em;color:var(--dim)">EXPOSURE</div></div>
+        <div><span class="dm" id="expoDomain"></span><span class="badge" id="expoBadge"></span>
+          <p id="expoLine"></p>
+          <p style="color:var(--dim)">Higher means more is visible from the public internet in this quick check. Attackers typically start with these signals.</p></div>
+      </div>
+      <div id="findings"></div>
+      <div class="card vid hidden" id="vidCard">
+        <h4 style="font-size:18px">🎬 Your personal briefing video</h4>
+        <p id="vState" style="color:#c9d4e3;margin-top:6px">Generating your personal briefing video…</p>
+        <div class="bar"><div id="vBar"></div></div>
+        <div id="vPlayer"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mfoot">
+    <p>This is what attackers see from outside. Let us help you close every door.</p>
+    <button class="bigbtn" id="fullBtn">Fix my vibe: get the full Secure Vibes plan</button>
+    <form class="sub hidden" id="subForm"><input type="email" id="email" placeholder="you@company.com" required /><button type="submit">Subscribe</button></form>
+    <div id="okmsg" style="margin-top:8px;color:var(--pass)"></div>
+  </div>
+</div></div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const SEV = { critical:'#f87171', high:'#fb923c', medium:'#facc15', low:'#60a5fa', info:'#93a3b8', pass:'#34d399' };
+const current = { id:null, domain:'' };
+
+$('#scanForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const domain = $('#domain').value.trim();
+  $('#err').textContent = '';
+  if (!domain) { $('#err').textContent = 'Enter a domain to scan.'; return; }
+  if (!$('#consent').checked) { $('#err').textContent = 'Please confirm you own or are authorised to scan this domain.'; return; }
+  startScan(domain);
+});
+
+function startScan(domain) {
+  current.domain = domain;
+  $('#scanBtn').disabled = true;
+  $('#overlay').classList.remove('hidden');
+  $('#mTitle').textContent = domain + ' · scanning…';
+  $('#mSub').textContent = 'Checking what is publicly visible from the internet';
+  $('#steps').innerHTML = ''; $('#findings').innerHTML = '';
+  $('#expoCard').classList.add('hidden'); $('#vidCard').classList.add('hidden');
+  $('#domExt').classList.remove('done'); $('#extRing').textContent = '';
+  const es = new EventSource(`/api/scan?domain=${encodeURIComponent(domain)}&consent=1`);
+  let done = false;
+  es.addEventListener('step', (ev) => {
+    const s = JSON.parse(ev.data);
+    let li = document.getElementById('st-' + s.key);
+    if (!li) { li = document.createElement('li'); li.id = 'st-' + s.key; $('#steps').appendChild(li); }
+    li.className = s.state === 'done' ? 'ok' : '';
+    li.innerHTML = `<span>${esc(s.label)}</span><span>${s.ms != null ? (s.ms/1000).toFixed(1)+'s' : '…'}</span>`;
+  });
+  es.addEventListener('result', (ev) => {
+    done = true; es.close();
+    const { id, report } = JSON.parse(ev.data);
+    current.id = id; $('#scanBtn').disabled = false;
+    renderReport(report); pollVideo(id);
+  });
+  es.addEventListener('fail', (ev) => { done = true; es.close(); fail(JSON.parse(ev.data).error || 'Scan failed'); });
+  es.onerror = () => { if (!done) { es.close(); fail('Connection lost during the scan. Please try again.'); } };
+}
+function fail(msg) { $('#scanBtn').disabled = false; $('#overlay').classList.add('hidden'); $('#err').textContent = msg; }
+
+function renderReport(r) {
+  const s = r.summary, exposure = 100 - s.score;
+  const issues = r.findings.filter((f) => ['critical','high','medium','low'].includes(f.severity));
+  const level = exposure >= 50 ? 'Critical exposure' : exposure >= 30 ? 'High priority gaps' : exposure >= 15 ? 'Moderate gaps' : 'Low exposure';
+  $('#mTitle').textContent = `${r.target.host} · ${exposure}/100 exposure`;
+  $('#mSub').textContent = `${level} · ${issues.length} public signals flagged`;
+  $('#domExt').classList.add('done'); $('#extRing').textContent = '✓';
+  $('#expoCard').classList.remove('hidden');
+  $('#expoDomain').textContent = r.target.host; $('#expoBadge').textContent = level;
+  $('#expoLine').textContent = `${issues.length} public signals flagged for ${r.target.host}.`;
+  const col = exposure >= 30 ? SEV.critical : exposure >= 15 ? SEV.medium : SEV.pass;
+  $('#expoArc').style.stroke = col;
+  setTimeout(() => { $('#expoArc').style.strokeDashoffset = 207.3 * (1 - exposure / 100); }, 60);
+  const t0 = performance.now(); const step = (t) => { const p = Math.min(1, (t - t0) / 1200); $('#expoNum').textContent = Math.round(exposure * p); if (p < 1) requestAnimationFrame(step); }; requestAnimationFrame(step);
+  const ai = r.ai || { skipped: true };
+  $('#aiCard').classList.remove('hidden');
+  $('#aiCard').innerHTML = `<div class="eyebrow" style="font-size:12px">AI executive brief · Gemma 4</div>` + (ai.headline
+    ? `<h3 style="font-size:20px;margin:8px 0">${esc(ai.headline)}</h3><p style="color:#c9d4e3;line-height:1.5">${esc(ai.summary)}</p>
+       <ol style="margin:10px 0 0 20px;color:#eef4fb;line-height:1.6">${(ai.actions || []).map((a) => `<li>${esc(a)}</li>`).join('')}</ol>
+       ${ai.boardLine ? `<p style="margin-top:10px;font-style:italic;color:var(--teal2)">“${esc(ai.boardLine)}”</p>` : ''}
+       <div style="font-size:12px;color:var(--dim);margin-top:8px">Generated by ${esc(ai.model || 'Gemma 4')} via OpenRouter</div>`
+    : `<p style="color:var(--dim);margin-top:8px">AI brief unavailable: add OPENROUTER_API_KEY in .env</p>`);
+  const shown = r.findings.filter((f) => f.severity !== 'info');
+  $('#findings').innerHTML = shown.map((f) => {
+    const label = f.severity === 'pass' ? 'PASSED' : f.severity.toUpperCase();
+    const icon = f.severity === 'pass' ? '✓' : f.severity === 'critical' ? 'ⓘ' : '⚠';
+    return `<div class="card find"><h4><span class="pill" style="--c:${SEV[f.severity]}">${icon} ${label}</span>${esc(f.title)}</h4>${f.severity !== 'pass' ? `<p>${esc(f.impact)}</p>${f.fix ? `<div class="fix">Fix: ${esc(f.fix)}</div>` : ''}` : ''}</div>`;
+  }).join('');
+}
+
+function pollVideo(id) {
+  $('#vidCard').classList.remove('hidden'); $('#vPlayer').innerHTML = ''; $('#vBar').style.width = '0%';
+  $('#vState').textContent = 'Generating your personal briefing video…';
+  const tick = async () => {
+    if (current.id !== id) return;
+    try {
+      const s = await (await fetch('/api/video/' + id)).json();
+      if (s.state === 'done') {
+        $('#vBar').style.width = '100%';
+        $('#vState').textContent = 'Your briefing video is ready. Share it with your board.';
+        $('#vPlayer').innerHTML = `<video id="vEl" controls autoplay muted playsinline src="${s.url}"></video><a href="${s.url}" download="securevibes-${esc(current.domain)}.mp4" style="color:var(--teal2);font-weight:600;display:inline-block;margin-top:8px">Download video</a>`;
+        return;
+      }
+      if (s.state === 'error') { $('#vState').textContent = 'Video generation failed. The report above is still complete.'; return; }
+      $('#vBar').style.width = (s.pct || 5) + '%';
+    } catch { /* retry */ }
+    setTimeout(tick, 2000);
+  };
+  tick();
+}
+
+$('#fullBtn').addEventListener('click', () => { $('#subForm').classList.remove('hidden'); $('#email').focus(); });
+$('#subForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const res = await fetch('/api/subscribe', { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ email: $('#email').value, domain: current.domain, plan: 'full-diagnosis' }) });
+  $('#okmsg').textContent = res.ok ? `Thanks! Secure Vibes will email your fix plan and contact you within 24h to start the full diagnosis for ${current.domain}.` : 'Something went wrong. Please try again.';
+});
+</script>
+</body>
+</html>
