@@ -20,8 +20,11 @@ const segs = [
   { name: 'report', from: m.reportShown, to: m.reportShown + 6, speed: 1 },
   { name: 'scroll', from: m.reportShown + 6, to: m.scrollDone, speed: 1 },
   { name: 'video', from: m.videoStart, to: m.ctaMove, speed: 1 },
-  { name: 'cta', from: m.ctaMove, to: m.end, speed: 1 },
+  // End on the button press itself (before the sign-up box opens)
+  { name: 'cta', from: m.ctaMove, to: m.ctaClick ? m.ctaClick + 0.03 : m.end, speed: 1 },
 ];
+// The full-screen part shows the whole briefing video, never past its end
+if (brief) { const v = segs.find((x) => x.name === 'video'); v.to = Math.min(v.to, v.from + dur(brief) - 0.05); }
 let t = 0;
 for (const s of segs) { s.at = t; t += (s.to - s.from) / s.speed; }
 const total = t;
@@ -36,7 +39,7 @@ let cursor = 0; const placed = [];
   placed.push({ f, at, d, text: l.text });
   cursor = at + d;
 });
-const end = Math.max(total, cursor + 1.2);
+const end = Math.max(total + 1.5, cursor + 1.2); // hold the last frame
 placed.forEach((p) => console.log(p.at.toFixed(1).padStart(5), '→', (p.at + p.d).toFixed(1).padStart(5), p.text));
 console.log('video length', end.toFixed(1));
 

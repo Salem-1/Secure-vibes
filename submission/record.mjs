@@ -1,4 +1,4 @@
-// Records the promo walkthrough: types the demo domain, scans, scrolls the report, plays the video, clicks "Fix my vibe".
+// Records the promo walkthrough: types the demo domain, scans, scrolls the report, plays the whole video, ends on the "Fix my vibe" click.
 // Usage: npm run demo:record   (server must be running on http://localhost:3000; set CHROME_PATH if Chrome is not in /Applications)
 import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
@@ -54,20 +54,17 @@ mark('scrollDone');
 await page.waitForSelector('#vEl', { timeout: 180000 });
 await page.evaluate(() => { const v = document.querySelector('#vEl'); v.scrollIntoView({ block: 'center' }); v.currentTime = 0; v.play(); });
 mark('videoStart');
-await wait(19000); // hook → issues → grade → first risk
-await page.evaluate(async () => { const v = document.querySelector('#vEl'); v.pause(); if (document.fullscreenElement) await document.exitFullscreen(); });
+// Let the briefing video play to the end
+await page.waitForFunction(() => document.querySelector('#vEl').ended, { timeout: 60000, polling: 200 });
+await page.evaluate(async () => { if (document.fullscreenElement) await document.exitFullscreen(); });
 mark('ctaMove');
+// End on the big "Fix my vibe" button
 await moveTo('#fullBtn');
-await page.evaluate(() => document.dispatchEvent(new MouseEvent('mousedown'))); await wait(110);
-await page.evaluate(() => document.dispatchEvent(new MouseEvent('mouseup')));
-await page.$eval('#fullBtn', (b) => b.click()); mark('ctaClick');
-await wait(400);
-await moveTo('#email');
-await page.$eval('#email', (e) => e.focus());
-await page.keyboard.type('founder@myawesomevibecodedwebsite.com', { delay: 40 });
-await moveTo('#subForm button[type=submit]');
-await page.$eval('#subForm', (f) => f.requestSubmit()); mark('subscribed');
-await wait(3500);
+await wait(300);
+await page.mouse.down(); mark('ctaClick'); await wait(140); await page.mouse.up();
+// Fallback in case the real click missed
+await page.$eval('#subForm', (f, b) => { if (f.classList.contains('hidden')) document.querySelector('#fullBtn').click(); });
+await wait(1000);
 mark('end');
 await rec.stop(); await browser.close();
 fs.writeFileSync(out + '.marks.json', JSON.stringify(marks));

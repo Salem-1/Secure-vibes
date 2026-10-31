@@ -16,7 +16,7 @@ Built for founders who ship fast with Cursor, Lovable, Bolt, Replit or Claude Co
 
 | File | What it is |
 | --- | --- |
-| [`submission/demo.mp4`](submission/demo.mp4) | 52-second walkthrough: URL in → live scan → report and Gemma 4 brief → personal video → "Fix my vibe" sign-up |
+| [`submission/demo.mp4`](submission/demo.mp4) | 1-minute walkthrough: URL in → live scan → report and Gemma 4 brief → the full personal video → click on "Fix my vibe" |
 | [`submission/briefing-video.mp4`](submission/briefing-video.mp4) | The personal briefing video the app generates for each scan |
 | [`submission/Secure-Vibes.pptx`](submission/Secure-Vibes.pptx) | Pitch deck |
 
