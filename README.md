@@ -16,7 +16,7 @@ Built for founders who ship fast with Cursor, Lovable, Bolt, Replit or Claude Co
 
 | File | What it is |
 | --- | --- |
-| [`submission/demo.mp4`](submission/demo.mp4) | 1-minute walkthrough: URL in → live scan → report and Gemma 4 brief → the full personal video → click on "Fix my vibe" |
+| [`submission/demo.mp4`](submission/demo.mp4) | 1-minute voiced walkthrough: URL in → live scan → report and Gemma 4 brief → the full personal video → click on "Fix my vibe" |
 | [`submission/briefing-video.mp4`](submission/briefing-video.mp4) | The personal briefing video the app generates for each scan |
 | [`submission/Secure-Vibes.pptx`](submission/Secure-Vibes.pptx) | Pitch deck |
 
@@ -50,7 +50,7 @@ Everything in `.env` is optional. Without a key the scan, report and video still
 | --- | --- |
 | `OPENROUTER_API_KEY` | Turns on the Gemma 4 executive brief. Get a key at [openrouter.ai/keys](https://openrouter.ai/keys). |
 | `OPENROUTER_MODEL` | Gemma 4 model to use. Default `google/gemma-4-31b-it`; `google/gemma-4-31b-it:free` uses the free tier. |
-| `GEMINI_API_KEY` | Only for the optional demo voiceover (Gemini Flash TTS). Get a key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey). |
+| `GEMINI_API_KEY` | Only for the optional Gemini Flash voiceover on the demo video. Get a key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey). The free local voice (below) needs no key. |
 | `GEMINI_TTS_MODEL` | Voiceover model. Default `gemini-2.5-flash-preview-tts`. |
 | `DEMO_DOMAIN` | The domain that triggers demo mode. Default `MyAwesomeVibeCodedWebsite.com`. |
 | `PORT` | Port for the web app. Default `3000`. |
@@ -99,11 +99,17 @@ With the server running:
 
 ```bash
 npm run demo:record      # records the walkthrough with Chrome (set CHROME_PATH if Chrome isn't in /Applications)
-npm run demo:edit        # cuts it to the key moments with music → submission/demo.mp4
+npm run demo:edit        # cuts it to the key moments, music only → submission/demo.mp4
 npm run deck             # rebuilds the pitch deck (needs: pip install python-pptx)
 ```
 
-To add the Gemini Flash voiceover, set `GEMINI_API_KEY`, then run `npm run demo:voice` and `npm run demo:edit:voice`. The script is in `submission/promo-script.json`.
+**Voiceover.** The script is in `submission/promo-script.json`. The shipped demo uses [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M), a free open-source voice that runs locally:
+
+```bash
+npm install --no-save kokoro-js   # one time; the voice model downloads on first run
+npm run demo:voice:local         # or: npm run demo:voice  (Gemini Flash, needs GEMINI_API_KEY)
+npm run demo:edit:voice          # voice + music → submission/demo.mp4
+```
 
 ## Credits
 

@@ -10,7 +10,8 @@
     "demo:voice": "node submission/voiceover.mjs jobs/vo",
     "demo:edit": "node submission/make-promo.mjs jobs/raw-demo.webm none submission/demo.mp4 submission/briefing-video.mp4",
     "demo:edit:voice": "node submission/make-promo.mjs jobs/raw-demo.webm jobs/vo submission/demo.mp4 submission/briefing-video.mp4",
-    "deck": "python3 submission/make_deck.py"
+    "deck": "python3 submission/make_deck.py",
+    "demo:voice:local": "node submission/voiceover-local.mjs jobs/vo"
   },
   "dependencies": {
     "express": "^5.3.0",

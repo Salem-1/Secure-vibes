@@ -16,6 +16,7 @@ Secure Vibes is built on the work of these open-source projects, models and publ
 | [Express](https://expressjs.com) | Web server and API (`server.js`) | MIT |
 | [Puppeteer](https://pptr.dev) (puppeteer-core) | Records the demo walkthrough (`submission/record.mjs`) | Apache-2.0 |
 | [python-pptx](https://github.com/scanny/python-pptx) | Builds the pitch deck (`submission/make_deck.py`) | MIT |
+| [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) by hexgrad, via [kokoro-js](https://github.com/hexgrad/kokoro) | The demo video's voiceover, generated locally (`submission/voiceover-local.mjs`) | Apache-2.0 |
 | [FFmpeg](https://ffmpeg.org) | Video encoding, demo editing and the generated ambient soundtrack (`assets/music.wav`) | LGPL / GPL |
 | [Node.js](https://nodejs.org) | Runtime | MIT |
 

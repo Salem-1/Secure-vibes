@@ -56,7 +56,7 @@ const voice = placed.map((p, i) => `[${i + VO0}:a]aresample=44100,volume=1.6,ade
 const afilter = !placed.length
   ? `[1:a]atrim=0:${end.toFixed(2)},volume=0.8,afade=t=in:d=1,afade=t=out:st=${(end - 2.5).toFixed(2)}:d=2.5[aout]`
   : `${voice.join(';')};${placed.map((_, i) => `[a${i}]`).join('')}amix=inputs=${placed.length}:normalize=0,asplit=2[vo][vo2];` +
-  `[1:a]atrim=0:${end.toFixed(2)},volume=0.45,afade=t=in:d=1,afade=t=out:st=${(end - 2.5).toFixed(2)}:d=2.5[bed];` +
-  `[bed][vo]sidechaincompress=threshold=0.03:ratio=6:attack=20:release=400[duck];[duck][vo2]amix=inputs=2:normalize=0,alimiter=limit=0.95[aout]`;
+  `[1:a]atrim=0:${end.toFixed(2)},volume=1.1,afade=t=in:d=1,afade=t=out:st=${(end - 2.5).toFixed(2)}:d=2.5[bed];` +
+  `[bed][vo]sidechaincompress=threshold=0.03:ratio=6:attack=20:release=400[duck];[duck][vo2]amix=inputs=2:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100[aout]`;
 execFileSync('ffmpeg', ['-y', '-loglevel', 'error', ...inputs, '-filter_complex', `${vfilter};${afilter}`, '-map', '[v]', '-map', '[aout]', '-t', end.toFixed(2), '-c:v', 'libx264', '-crf', '22', '-preset', 'veryfast', '-c:a', 'aac', '-b:a', '160k', '-movflags', '+faststart', out]);
 console.log('wrote', out);
